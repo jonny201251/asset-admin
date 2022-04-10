@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Wrapper
 public class Test {
     public static void main(String[] args) {
+
         List<AssetBuy> list = new ArrayList<>();
         AssetBuy buy1 = new AssetBuy();
         buy1.setStatus("1");
