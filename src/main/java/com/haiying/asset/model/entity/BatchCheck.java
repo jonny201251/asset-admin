@@ -23,18 +23,19 @@ import java.time.LocalDateTime;
 @Setter
 @TableName("batch_check")
 public class BatchCheck implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    private Integer year;
 
     private String checkName;
 
     private String menuName;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime startDatetime;
+    private LocalDateTime createDatetime;
 
     private Integer userId;
 
