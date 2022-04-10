@@ -32,6 +32,8 @@ public class Test {
         buy.setStatus("111");
         buy.setName("111111");
         System.out.println();
+
+
     }
 
     @PostMapping("test")
