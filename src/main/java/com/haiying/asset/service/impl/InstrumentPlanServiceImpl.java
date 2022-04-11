@@ -44,7 +44,14 @@ public class InstrumentPlanServiceImpl extends ServiceImpl<InstrumentPlanMapper,
         batchCheckService.save(formValue);
         List<Category> categoryList = categoryService.list();
         Map<Integer, String> categoryMap = categoryList.stream().collect(Collectors.toMap(Category::getId, Category::getName));
-        list.forEach(item -> item.setBatchId(formValue.getId()));
+        for (InstrumentPlan instrumentPlan : list) {
+            instrumentPlan.setBatchId(formValue.getId());
+            instrumentPlan.setCategoryName(categoryMap.get(instrumentPlan.getCategoryId()));
+            instrumentPlan.setDisplayName(formValue.getDisplayName());
+            instrumentPlan.setLoginName(formValue.getLoginName());
+            instrumentPlan.setStartDeptId(formValue.getDeptId());
+            instrumentPlan.setStartDeptName(formValue.getDeptName());
+        }
         this.saveBatch(list);
     }
 

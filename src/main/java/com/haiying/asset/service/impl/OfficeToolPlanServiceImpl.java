@@ -5,15 +5,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haiying.asset.bean.ButtonHandleBean;
 import com.haiying.asset.mapper.OfficeToolPlanMapper;
 import com.haiying.asset.model.entity.BatchCheck;
+import com.haiying.asset.model.entity.Category;
 import com.haiying.asset.model.entity.OfficeToolPlan;
 import com.haiying.asset.model.vo.OfficeToolPlanAfter;
 import com.haiying.asset.service.BatchCheckService;
+import com.haiying.asset.service.CategoryService;
 import com.haiying.asset.service.OfficeToolPlanService;
 import com.haiying.asset.service.ProcessInstService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -31,11 +35,21 @@ public class OfficeToolPlanServiceImpl extends ServiceImpl<OfficeToolPlanMapper,
     BatchCheckService batchCheckService;
     @Autowired
     ProcessInstService processInstService;
+    @Autowired
+    CategoryService categoryService;
 
     private void add(BatchCheck formValue, List<OfficeToolPlan> list) {
         formValue.setMenuName("办公营具计划");
         batchCheckService.save(formValue);
-        list.forEach(item -> item.setBatchId(formValue.getId()));
+        List<Category> categoryList = categoryService.list();
+        Map<Integer, String> categoryMap = categoryList.stream().collect(Collectors.toMap(Category::getId, Category::getName));
+        for (OfficeToolPlan officeToolPlan : list) {
+            officeToolPlan.setBatchId(formValue.getId());
+            officeToolPlan.setDisplayName(formValue.getDisplayName());
+            officeToolPlan.setLoginName(formValue.getLoginName());
+            officeToolPlan.setStartDeptId(formValue.getDeptId());
+            officeToolPlan.setStartDeptName(formValue.getDeptName());
+        }
         this.saveBatch(list);
     }
 

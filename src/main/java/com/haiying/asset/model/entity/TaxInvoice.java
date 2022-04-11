@@ -71,4 +71,7 @@ public class TaxInvoice implements Serializable {
     private String status;
 
     private String guid;
+
+    private Integer categoryId;
+    private String categoryName;
 }
