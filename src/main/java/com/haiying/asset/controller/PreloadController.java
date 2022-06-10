@@ -1,5 +1,6 @@
 package com.haiying.asset.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.haiying.asset.common.result.Wrapper;
 import com.haiying.asset.common.utils.TreeUtil;
 import com.haiying.asset.model.entity.Category;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,11 +36,24 @@ public class PreloadController {
     @GetMapping("get")
     public Map<String, Object> get() {
         Map<String, Object> map = new HashMap<>();
-        //固定资产分类
+        //固定资产分类-全部
         List<Category> categoryList = categoryService.list();
         List<TreeSelect> categoryTreeSelect = TreeUtil.getTreeSelect(categoryList);
         map.put("categoryTreeSelect", categoryTreeSelect);
-        //部门
+        //固定资产分类-设备
+        List<Category> instrumentCategoryList = categoryService.list(new LambdaQueryWrapper<Category>().in(Category::getCodePrefix, Arrays.asList("KYQ", "KSB", "KQTSB")));
+        List<TreeSelect> instrumentCategoryTreeSelect = TreeUtil.getTreeSelect(instrumentCategoryList);
+        map.put("instrumentCategoryTreeSelect", instrumentCategoryTreeSelect);
+        //固定资产分类-房屋
+        List<Category> houseCategoryList = categoryService.list(new LambdaQueryWrapper<Category>().eq(Category::getUseYear, 35));
+        List<TreeSelect> houseCategoryTreeSelect = TreeUtil.getTreeSelect(houseCategoryList);
+        map.put("houseCategoryTreeSelect", houseCategoryTreeSelect);
+        //固定资产分类-车辆
+        List<Category> carCategoryList = categoryService.list(new LambdaQueryWrapper<Category>().eq(Category::getCodePrefix, "KCL"));
+        List<TreeSelect> carCategoryTreeSelect = TreeUtil.getTreeSelect(carCategoryList);
+        map.put("carCategoryTreeSelect", carCategoryTreeSelect);
+
+
         List<SysDept> deptList = sysDeptService.list();
         List<TreeSelect> deptTreeSelect = TreeUtil.getTreeSelect(deptList);
         map.put("deptTreeSelect", deptTreeSelect);

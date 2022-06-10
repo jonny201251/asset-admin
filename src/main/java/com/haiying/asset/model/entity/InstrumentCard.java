@@ -64,6 +64,8 @@ public class InstrumentCard implements Serializable {
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate buyDate;
+    //购置或安装日期，用于旧数据
+    private String buy2Date;
 
     /**
      * 启用日期
@@ -86,31 +88,13 @@ public class InstrumentCard implements Serializable {
      */
     private Double startMoney;
 
+    //净值
+    private Double endMoney;
+
     /**
      * 使用年限
      */
     private Integer useYear;
-
-    /**
-     * 已使用年限
-     */
-    private Integer yesUseYear;
-
-    /**
-     * 未使用年限
-     */
-    private Integer noUseYear;
-
-    /**
-     * 年折旧率
-     */
-    private String yearRate;
-
-    private Double yearLoseMoney;
-
-    private String monthRate;
-
-    private Double monthLoseMoney;
 
     private Double totalLoseMoney;
 
@@ -150,4 +134,22 @@ public class InstrumentCard implements Serializable {
     private String carCode;
 
     private String guid;
+    //是否旧数据
+    private String haveOld;
+    //期初，累计折旧(2021-12-31)
+    private Double startLoseMoney;
+    //凭证号
+    private String financeCode;
+    //排气量
+    private String carAir;
+    //车辆行驶证
+    private String carHaveDrive;
+    //持证人
+    private String carPerson;
+    //车辆用途
+    private String carUse;
+    //使用状况，正常使用，停用，报废，调拨使用,逾龄使用
+    private String useStatus;
+    //是否提满折旧
+    private String haveFull;
 }

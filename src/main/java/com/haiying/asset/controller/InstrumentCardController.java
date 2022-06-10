@@ -34,13 +34,9 @@ public class InstrumentCardController {
         LambdaQueryWrapper<InstrumentCard> wrapper = new LambdaQueryWrapper<>();
         Integer current = (Integer) paramMap.get("current");
         Integer pageSize = (Integer) paramMap.get("pageSize");
-        Object type = paramMap.get("type");
-        Object name = paramMap.get("name");
-        if (ObjectUtil.isNotEmpty(type)) {
-            wrapper.like(InstrumentCard::getDeptName, type);
-        }
-        if (ObjectUtil.isNotEmpty(name)) {
-            wrapper.like(InstrumentCard::getName, name);
+        Object code = paramMap.get("code");
+        if (ObjectUtil.isNotEmpty(code)) {
+            wrapper.like(InstrumentCard::getCode, code);
         }
         return instrumentCardService.page(new Page<>(current, pageSize), wrapper);
     }

@@ -13,16 +13,16 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 办公营具登记卡片
+ * 房屋及构建筑物登记卡片
  * </p>
  *
  * @author 作者
- * @since 2022-03-26
+ * @since 2022-05-18
  */
 @Getter
 @Setter
-@TableName("office_tool_card")
-public class OfficeToolCard implements Serializable {
+@TableName("house_card")
+public class HouseCard implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,38 +35,26 @@ public class OfficeToolCard implements Serializable {
     private String code;
 
     private Integer categoryId;
+
     private String categoryName;
 
     private String name;
 
     /**
-     * 型号规格
+     * 结构
      */
-    private String modelSpec;
+    private String structure;
 
     /**
-     * 资金来源
+     * 房屋面积
      */
-    private String moneyFrom;
+    private Double area;
 
     /**
-     * 购置日期
+     * 取得日期
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate buyDate;
-    //购置或安装日期，用于旧数据
-    private String buy2Date;
-
-    /**
-     * 使用日期
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate useDate;
-
-    /**
-     * 单位
-     */
-    private String unit;
+    private LocalDate getDate;
 
     /**
      * 数量
@@ -74,7 +62,7 @@ public class OfficeToolCard implements Serializable {
     private Integer number;
 
     /**
-     * 资产原值=入库中的单价*数量+运输费+安装费
+     * 资产原值
      */
     private Double startMoney;
 
@@ -120,14 +108,46 @@ public class OfficeToolCard implements Serializable {
 
     private String guid;
 
-    //是否旧数据
+    /**
+     * 是否旧数据
+     */
     private String haveOld;
-    //期初，累计折旧(2021-12-31)
+
+    /**
+     * 期初，累计折旧(2021-12-31)
+     */
     private Double startLoseMoney;
-    //凭证号
+
+    /**
+     * 凭证号
+     */
     private String financeCode;
     //使用状况，正常使用，停用，报废，调拨使用，逾龄使用
     private String useStatus;
     //是否提满折旧
     private String haveFull;
+
+    //权属情况-房屋权属证明、权属人、发证日期、房屋所有权证号、权属面积、权属性质
+    private String own1;
+    private String own2;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate own3;
+    private String own4;
+    private Double own5;
+    private String own6;
+    //办公用房-在用、出租出借、闲置、待处置（待报废、毁损等）
+    private Double office1;
+    private Double office2;
+    private Double office3;
+    private Double office4;
+    //业务用房-在用、出租出借、闲置、待处置（待报废、毁损等）
+    private Double business1;
+    private Double business2;
+    private Double business3;
+    private Double business4;
+    //其他用房-在用、出租出借、闲置、待处置（待报废、毁损等）
+    private Double other1;
+    private Double other2;
+    private Double other3;
+    private Double other4;
 }
