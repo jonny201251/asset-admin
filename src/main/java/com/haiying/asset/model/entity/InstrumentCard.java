@@ -30,7 +30,7 @@ public class InstrumentCard implements Serializable {
     private Integer id;
 
     /**
-     *  资产编号
+     * 资产编号
      */
     private String code;
 
@@ -148,8 +148,10 @@ public class InstrumentCard implements Serializable {
     private String carPerson;
     //车辆用途
     private String carUse;
-    //使用状况，正常使用，停用，报废，调拨使用,逾龄使用
+    //使用状况，在用，停用，报废，调拨
     private String useStatus;
     //是否提满折旧
     private String haveFull;
+    //月折旧
+    private Double monthLose;
 }

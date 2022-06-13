@@ -122,10 +122,12 @@ public class HouseCard implements Serializable {
      * 凭证号
      */
     private String financeCode;
-    //使用状况，正常使用，停用，报废，调拨使用，逾龄使用
+    //使用状况，在用，停用，报废，调拨
     private String useStatus;
     //是否提满折旧
     private String haveFull;
+    //月折旧
+    private Double monthLose;
 
     //权属情况-房屋权属证明、权属人、发证日期、房屋所有权证号、权属面积、权属性质
     private String own1;

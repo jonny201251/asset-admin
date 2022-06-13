@@ -41,6 +41,8 @@ public class InitCardController {
     CategoryService categoryService;
     @Autowired
     SysDeptService sysDeptService;
+    @Autowired
+    AssetLoseService assetLoseService;
 
     @GetMapping("car1")
     public boolean car1() throws Exception {
@@ -469,6 +471,41 @@ public class InitCardController {
             }
         }
         officeToolCardService.updateBatchById(list);
+
+        return true;
+    }
+
+    //end_year_month
+    @GetMapping("a2")
+    public boolean a2() throws Exception {
+        //
+        List<OfficeToolCard> list1 = officeToolCardService.list(new LambdaQueryWrapper<>());
+        for (OfficeToolCard card : list1) {
+            String d = card.getBuy2Date();
+            Integer year = null;
+            String month = null;
+            if (d.length() == 4) {
+                year = Integer.parseInt(d) + card.getUseYear();
+                month = "01";
+            } else {
+                year = Integer.parseInt(d.substring(0, 4)) + card.getUseYear();
+                month = d.substring(4);
+            }
+//            card.setEndYearMonth(Integer.parseInt(year + month));
+        }
+        officeToolCardService.updateBatchById(list1);
+
+        return true;
+    }
+
+    /*
+    往asset_lose表中写入折旧
+    1.先处理已经提满的数据
+    2.再处理未提满的数据
+ */
+    @GetMapping("a3")
+    public boolean a3() throws Exception {
+
 
         return true;
     }

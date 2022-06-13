@@ -126,8 +126,10 @@ public class OfficeToolCard implements Serializable {
     private Double startLoseMoney;
     //凭证号
     private String financeCode;
-    //使用状况，正常使用，停用，报废，调拨使用，逾龄使用
+    //使用状况，在用，停用，报废，调拨
     private String useStatus;
     //是否提满折旧
     private String haveFull;
+    //月折旧
+    private Double monthLose;
 }

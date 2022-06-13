@@ -2,7 +2,8 @@ server:
   port: 8083
   servlet:
     context-path: /asset
-
+    session:
+      timeout: 3600s
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -37,6 +38,9 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+minidao:
+  base-package: org.jeecg.modules.jmreport.desreport.dao*
+  db-type: mysql
 logging:
   level:
     org.jeecg.modules.jmreport: error
