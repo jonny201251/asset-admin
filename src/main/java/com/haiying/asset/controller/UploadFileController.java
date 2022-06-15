@@ -29,7 +29,7 @@ public class UploadFileController {
         }
         String fileName = file.getOriginalFilename();
         //保存到本地硬盘
-        String directory = "D:/assetFile/upload/" + user.getLoginName();
+        String directory = "D:/appFile/assetFile/upload/" + user.getLoginName();
         File directoryFile = new File(directory);
         if (!directoryFile.exists()) {
             directoryFile.mkdirs();

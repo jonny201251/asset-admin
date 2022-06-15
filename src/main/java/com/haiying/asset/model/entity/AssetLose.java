@@ -3,9 +3,10 @@ package com.haiying.asset.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -31,17 +32,19 @@ public class AssetLose implements Serializable {
 
     private String categoryName;
 
-    private Integer guid;
+    private String guid;
 
     private Integer startYear;
 
     private Integer startMonth;
 
-    private Integer endYear;
+    private Integer nowYear;
 
-    private Integer endMonth;
+    private Integer nowMonth;
 
     private String deptName;
 
-
+    private Double monthLose;
+    //最后一次折旧
+    private Double endLose;
 }

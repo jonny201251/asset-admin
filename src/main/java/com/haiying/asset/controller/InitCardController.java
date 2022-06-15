@@ -479,9 +479,10 @@ public class InitCardController {
     @GetMapping("a2")
     public boolean a2() throws Exception {
         //
-        List<OfficeToolCard> list1 = officeToolCardService.list(new LambdaQueryWrapper<>());
-        for (OfficeToolCard card : list1) {
-            String d = card.getBuy2Date();
+        List<HouseCard> list1 = houseCardService.list(new LambdaQueryWrapper<>());
+        for (HouseCard card : list1) {
+            String d = card.getGetDate().toString().replaceAll("-", "");
+            System.out.println();
             Integer year = null;
             String month = null;
             if (d.length() == 4) {
@@ -489,24 +490,105 @@ public class InitCardController {
                 month = "01";
             } else {
                 year = Integer.parseInt(d.substring(0, 4)) + card.getUseYear();
-                month = d.substring(4);
+                month = d.substring(4, 6);
             }
-//            card.setEndYearMonth(Integer.parseInt(year + month));
+            card.setEndYearMonth(Integer.parseInt(year + month));
         }
-        officeToolCardService.updateBatchById(list1);
+        houseCardService.updateBatchById(list1);
 
         return true;
     }
 
     /*
     往asset_lose表中写入折旧
-    1.先处理已经提满的数据
-    2.再处理未提满的数据
+    未提满的数据
  */
     @GetMapping("a3")
     public boolean a3() throws Exception {
+        List<AssetLose> result = new ArrayList<>();
+        //未提满
+        List<HouseCard> list = houseCardService.list(new LambdaQueryWrapper<HouseCard>().eq(HouseCard::getHaveFull, "否"));
+        for (HouseCard card : list) {
+            double d = card.getEndMoney() - card.getMonthLose();
+            card.setEndMoney(d);
+            card.setMonthLoseCount(1);
+
+            AssetLose assetLose = new AssetLose();
+            assetLose.setCode(card.getCode());
+            assetLose.setName(card.getName());
+            assetLose.setCategoryName(card.getCategoryName());
+            assetLose.setGuid(card.getGuid());
+            assetLose.setDeptName(card.getUseDeptName());
+            assetLose.setMonthLose(card.getMonthLose());
+            //
+            assetLose.setStartYear(2022);
+            assetLose.setStartMonth(1);
+            assetLose.setNowYear(2022);
+            assetLose.setNowMonth(1);
+
+            result.add(assetLose);
+        }
+
+        assetLoseService.saveBatch(result);
+        houseCardService.updateBatchById(list);
+        return true;
+    }
 
 
+    //开始提已存在的折旧
+    @GetMapping("a4")
+    public boolean a4() throws Exception {
+        List<AssetLose> loseList = assetLoseService.list();
+        Map<String, AssetLose> loseMap = loseList.stream().collect(Collectors.toMap(AssetLose::getGuid, v -> v));
+
+        List<OfficeToolCard> list = officeToolCardService.list(new LambdaQueryWrapper<OfficeToolCard>().eq(OfficeToolCard::getHaveFull, "否"));
+        for (OfficeToolCard card : list) {
+            int i1 = (int) Math.floor(card.getEndMoney());
+            int i2 = (int) Math.floor(card.getMonthLose());
+            double d = card.getEndMoney() - card.getMonthLose();
+            if (i1 == i2) {
+                //接着本次折旧
+                AssetLose lose = loseMap.get(card.getGuid());
+                lose.setNowMonth(lose.getNowMonth() + 1);
+                lose.setEndLose(0d);
+                //
+                card.setEndMoney(0d);
+                card.setMonthLoseCount(card.getMonthLoseCount() + 1);
+                card.setHaveFull("是");
+                card.setEndLose(0d);
+            } else if (i1 < i2) {
+                //折旧结束
+                AssetLose lose = loseMap.get(card.getGuid());
+                lose.setEndLose(card.getEndMoney());
+                //
+                card.setEndLose(card.getEndMoney());
+                card.setEndMoney(0d);
+                card.setHaveFull("是");
+            } else {
+                //i1>i2
+                if (d <= 5) {
+                    //接着本次折旧
+                    AssetLose lose = loseMap.get(card.getGuid());
+                    lose.setNowMonth(lose.getNowMonth() + 1);
+                    lose.setEndLose(0d);
+                    //
+                    card.setEndMoney(0d);
+                    card.setMonthLoseCount(card.getMonthLoseCount() + 1);
+                    card.setHaveFull("是");
+                    card.setEndLose(0d);
+                } else {
+                    //继续折旧
+                    AssetLose lose = loseMap.get(card.getGuid());
+                    lose.setNowMonth(lose.getNowMonth() + 1);
+                    //
+                    card.setEndMoney(d);
+                    card.setMonthLoseCount(card.getMonthLoseCount() + 1);
+                }
+            }
+        }
+
+        assetLoseService.updateBatchById(loseList);
+        officeToolCardService.updateBatchById(list);
         return true;
     }
 }

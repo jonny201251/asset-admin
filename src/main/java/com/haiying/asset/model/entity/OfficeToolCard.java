@@ -30,7 +30,7 @@ public class OfficeToolCard implements Serializable {
     private Integer id;
 
     /**
-     *  资产编号
+     * 资产编号
      */
     private String code;
 
@@ -132,4 +132,10 @@ public class OfficeToolCard implements Serializable {
     private String haveFull;
     //月折旧
     private Double monthLose;
+    //结束年月
+    private Integer endYearMonth;
+    //从2022年1月开始算起，折旧月数
+    private Integer monthLoseCount;
+    //最后一次折旧
+    private Double endLose;
 }
