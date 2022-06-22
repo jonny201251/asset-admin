@@ -88,7 +88,7 @@ public class AssetLoseController {
 
         for (int i = 0; i < typeArr.length; i++) {
             if (typeArr[i].equals("办公营具")) {
-
+                System.out.println();
             } else if (typeArr[i].equals("仪器仪表")) {
 
             } else if (typeArr[i].equals("房屋及构建筑物")) {
