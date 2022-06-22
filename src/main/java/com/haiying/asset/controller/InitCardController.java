@@ -43,6 +43,8 @@ public class InitCardController {
     SysDeptService sysDeptService;
     @Autowired
     AssetLoseService assetLoseService;
+    @Autowired
+    AssetFinanceCodeService assetFinanceCodeService;
 
     @GetMapping("car1")
     public boolean car1() throws Exception {
@@ -447,11 +449,11 @@ public class InitCardController {
     @GetMapping("a")
     public boolean a() throws Exception {
         List<Category> categoryList = categoryService.list();
-        Map<String, Integer> categoryMap = categoryList.stream().collect(Collectors.toMap(Category::getName, Category::getId));
+        Map<Integer, String> categoryMap = categoryList.stream().collect(Collectors.toMap(Category::getId, Category::getName));
 
-        List<InstrumentCard> list = instrumentCardService.list(new LambdaQueryWrapper<InstrumentCard>().isNull(InstrumentCard::getCategoryId));
+        List<InstrumentCard> list = instrumentCardService.list(new LambdaQueryWrapper<InstrumentCard>().isNull(InstrumentCard::getCategoryName));
         for (InstrumentCard card : list) {
-            card.setCategoryId(categoryMap.get(card.getCategoryName()));
+            card.setCategoryName(categoryMap.get(card.getCategoryId()));
         }
         instrumentCardService.updateBatchById(list);
         return true;
@@ -589,6 +591,30 @@ public class InitCardController {
 
         assetLoseService.updateBatchById(loseList);
         officeToolCardService.updateBatchById(list);
+        return true;
+    }
+
+    //凭证号
+    @GetMapping("a5")
+    public boolean a5() throws Exception {
+        List<AssetFinanceCode> data = new ArrayList<>();
+        List<HouseCard> list = houseCardService.list();
+        for (HouseCard card : list) {
+            if (ObjectUtil.isNotEmpty(card.getFinanceCode())) {
+                AssetFinanceCode financeCode = new AssetFinanceCode();
+                financeCode.setName(card.getName());
+                financeCode.setCode(card.getCode());
+                financeCode.setGuid(card.getGuid());
+                financeCode.setFinanceCode(card.getFinanceCode());
+                if (card.getUseStatus().equals("在用")) {
+                    financeCode.setType("购置");
+                } else if (card.getUseStatus().equals("报废")) {
+                    financeCode.setType("报废");
+                }
+                data.add(financeCode);
+            }
+        }
+        assetFinanceCodeService.saveBatch(data);
         return true;
     }
 }

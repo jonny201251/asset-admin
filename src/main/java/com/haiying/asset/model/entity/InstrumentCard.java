@@ -1,6 +1,7 @@
 package com.haiying.asset.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,6 +11,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -36,6 +38,8 @@ public class InstrumentCard implements Serializable {
 
     private Integer categoryId;
     private String categoryName;
+
+    private String categoryName2;
 
     private String name;
 
@@ -160,4 +164,7 @@ public class InstrumentCard implements Serializable {
     private Integer monthLoseCount;
     //最后一次折旧
     private Double endLose;
+
+    @TableField(exist = false)
+    private List<AssetFinanceCode> list;
 }

@@ -1,6 +1,7 @@
 package com.haiying.asset.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,6 +11,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -158,4 +160,8 @@ public class HouseCard implements Serializable {
     private Double other2;
     private Double other3;
     private Double other4;
+
+
+    @TableField(exist = false)
+    private List<AssetFinanceCode> list;
 }

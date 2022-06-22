@@ -9,7 +9,7 @@ import java.util.Collections;
 
 public class CodeGenerator {
     //表名称
-    private static String[] includeArr = {"asset_lose"};
+    private static String[] includeArr = {"asset_finance_code"};
 
     public static void main(String[] args) {
         String projectPath = System.getProperty("user.dir");

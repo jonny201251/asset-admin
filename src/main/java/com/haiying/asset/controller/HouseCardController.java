@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.haiying.asset.common.result.Wrapper;
+import com.haiying.asset.model.entity.AssetFinanceCode;
 import com.haiying.asset.model.entity.HouseCard;
 import com.haiying.asset.model.vo.HouseCardVO;
+import com.haiying.asset.service.AssetFinanceCodeService;
 import com.haiying.asset.service.HouseCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,8 @@ import java.util.Map;
 public class HouseCardController {
     @Autowired
     HouseCardService houseCardService;
+    @Autowired
+    AssetFinanceCodeService assetFinanceCodeService;
 
     @PostMapping("list")
     public IPage<HouseCard> list(@RequestBody Map<String, Object> paramMap) {
@@ -52,7 +56,9 @@ public class HouseCardController {
 
     @GetMapping("get")
     public HouseCard get(Integer id) {
-        return houseCardService.getById(id);
+        HouseCard houseCard = houseCardService.getById(id);
+        houseCard.setList(assetFinanceCodeService.list(new LambdaQueryWrapper<AssetFinanceCode>().eq(AssetFinanceCode::getGuid, houseCard.getGuid())));
+        return houseCard;
     }
 
     @PostMapping("edit")
